@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Traits\Oaweb;
-use App\Models\OpeningNew;
 use App\Models\Login;
-use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Http\Request;
 
 class Logincontroller extends Controller
@@ -21,15 +18,17 @@ class Logincontroller extends Controller
         $password = $this->request->password;
         $data = Login::where([
             'username' => $username,
-            'password' => $password
+            'password' => $password,
         ])->get();
 
+        // dd($data);
         if ($data->count() > 0) {
             $Resp = [
+                "id" => $data->first()->fk_id,
                 'username' => $data->first()->username,
                 'nama' => $data->first()->nama,
                 'token' => app('hash')->make($password),
-                'level' => $data->first()->level
+                'level' => $data->first()->level,
             ];
             return response()->json($Resp);
         } else {
@@ -41,10 +40,12 @@ class Logincontroller extends Controller
             ], 400);
         }
     }
-    public function all()
+    public function index()
     {
         try {
+
             $data = Login::get();
+
             return response()->json([
                 'status' => 'ok',
                 'messages' => '',
@@ -71,26 +72,24 @@ class Logincontroller extends Controller
         }
     }
 
-
-
     public function store()
     {
 
         try {
             $Login = new Login;
-            $Login->nama =  $this->request->nama;
-            $Login->nisn =  $this->request->nisn;
-            $Login->jk =  $this->request->jk;
-            $Login->alamat =  $this->request->alamat;
-            $Login->ttl =  $this->request->ttl;
-            $Login->kelas =  $this->request->kelas;
-            $Login->tahun_masuk =  $this->request->tahun_masuk;
-            $Login->nama_ibu =  $this->request->nama_ibu;
-            $Login->nama_ayah =  $this->request->nama_ayah;
+            $Login->nama = $this->request->nama;
+            $Login->nisn = $this->request->nisn;
+            $Login->jk = $this->request->jk;
+            $Login->alamat = $this->request->alamat;
+            $Login->ttl = $this->request->ttl;
+            $Login->kelas = $this->request->kelas;
+            $Login->tahun_masuk = $this->request->tahun_masuk;
+            $Login->nama_ibu = $this->request->nama_ibu;
+            $Login->nama_ayah = $this->request->nama_ayah;
             $Login->save();
             return response()->json([
                 'status' => 'ok',
-                'msg' => 'data berhasil di simpan'
+                'msg' => 'data berhasil di simpan',
             ]);
         } catch (\Throwable $th) {
             //throw $th;
@@ -101,25 +100,24 @@ class Logincontroller extends Controller
     {
         try {
             $Login = Login::find($id);
-            $Login->nama =  $this->request->nama;
-            $Login->nisn =  $this->request->nisn;
-            $Login->jk =  $this->request->jk;
-            $Login->alamat =  $this->request->alamat;
-            $Login->ttl =  $this->request->ttl;
-            $Login->kelas =  $this->request->kelas;
-            $Login->tahun_masuk =  $this->request->tahun_masuk;
-            $Login->nama_ibu =  $this->request->nama_ibu;
-            $Login->nama_ayah =  $this->request->nama_ayah;
+            $Login->nama = $this->request->nama;
+            $Login->nisn = $this->request->nisn;
+            $Login->jk = $this->request->jk;
+            $Login->alamat = $this->request->alamat;
+            $Login->ttl = $this->request->ttl;
+            $Login->kelas = $this->request->kelas;
+            $Login->tahun_masuk = $this->request->tahun_masuk;
+            $Login->nama_ibu = $this->request->nama_ibu;
+            $Login->nama_ayah = $this->request->nama_ayah;
             $Login->save();
             return response()->json([
                 'status' => 'ok',
-                'msg' => 'data berhasil di simpan'
+                'msg' => 'data berhasil di simpan',
             ]);
         } catch (\Throwable $th) {
             //throw $th;
         }
     }
-
 
     public function delete($id)
     {
@@ -128,12 +126,11 @@ class Logincontroller extends Controller
             $Login->delete();
             return response()->json([
                 'status' => 'ok',
-                'msg' => 'data berhasil di hapus'
+                'msg' => 'data berhasil di hapus',
             ]);
         } catch (\Throwable $th) {
         }
     }
-
 
     //
 }

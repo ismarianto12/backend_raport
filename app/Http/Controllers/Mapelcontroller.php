@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Traits\Oaweb;
 use App\Models\Mapel;
 use Illuminate\Http\Request;
 
@@ -15,7 +14,7 @@ class Mapelcontroller extends Controller
     public function index()
     {
         try {
-            $data = Mapel::get();
+            $data = Mapel::select(\DB::raw('*,pegawai.id as pegawai_id,mapel.id as id_mapel'))->join('pegawai', 'mapel.id_pegawai', '=', 'pegawai.id', 'left')->get();
             return response()->json($data);
         } catch (\Throwable $th) {
             throw $th;
@@ -27,49 +26,46 @@ class Mapelcontroller extends Controller
         return response()->json(
             [
                 [
-                    'id' => 'A', 'name' => '80 s/d 100'
+                    'id' => 'A', 'name' => '80 s/d 100',
                 ],
                 [
-                    'id' => 'B', 'name' => '70 s/d 80'
+                    'id' => 'B', 'name' => '70 s/d 80',
                 ],
                 [
-                    'id' =>  'C', 'name' => '60 s/d 70'
+                    'id' => 'C', 'name' => '60 s/d 70',
                 ],
                 [
-                    'id' =>  'D', 'name' => '40 s/d 60'
+                    'id' => 'D', 'name' => '40 s/d 60',
                 ],
                 [
-                    'id' =>  'E', 'name' => '20 s/d 40'
-                ]
+                    'id' => 'E', 'name' => '20 s/d 40',
+                ],
             ]
         );
     }
-
 
     public function kelas()
     {
         return response()->json(
             [
                 [
-                    'id' => 'A', 'name' => '80 s/d 100'
+                    'id' => 'A', 'name' => '80 s/d 100',
                 ],
                 [
-                    'id' => 'B', 'name' => '70 s/d 80'
+                    'id' => 'B', 'name' => '70 s/d 80',
                 ],
                 [
-                    'id' =>  'C', 'name' => '60 s/d 70'
+                    'id' => 'C', 'name' => '60 s/d 70',
                 ],
                 [
-                    'id' =>  'D', 'name' => '40 s/d 60'
+                    'id' => 'D', 'name' => '40 s/d 60',
                 ],
                 [
-                    'id' =>  'E', 'name' => '20 s/d 40'
-                ]
+                    'id' => 'E', 'name' => '20 s/d 40',
+                ],
             ]
         );
     }
-
-
 
     public function show($id)
     {
@@ -87,14 +83,11 @@ class Mapelcontroller extends Controller
         }
     }
 
-
-
     public function store()
     {
 
         try {
             $Mapel = new Mapel;
-            // $Mapel->id_pegawai = $this->request->id_pegawai;
             $Mapel->kode = $this->request->kode;
             $Mapel->mapel = $this->request->mapel;
             $Mapel->kkm = $this->request->kkm;
@@ -102,7 +95,7 @@ class Mapelcontroller extends Controller
             $Mapel->save();
             return response()->json([
                 'status' => 'ok',
-                'msg' => 'data berhasil di simpan'
+                'msg' => 'data berhasil di simpan',
             ]);
         } catch (\Throwable $th) {
             throw $th;
@@ -113,25 +106,24 @@ class Mapelcontroller extends Controller
     {
         try {
             $Mapel = Mapel::find($id);
-            $Mapel->nama =  $this->request->nama;
-            $Mapel->nisn =  $this->request->nisn;
-            $Mapel->jk =  $this->request->jk;
-            $Mapel->alamat =  $this->request->alamat;
-            $Mapel->ttl =  $this->request->ttl;
-            $Mapel->kelas =  $this->request->kelas;
-            $Mapel->tahun_masuk =  $this->request->tahun_masuk;
-            $Mapel->nama_ibu =  $this->request->nama_ibu;
-            $Mapel->nama_ayah =  $this->request->nama_ayah;
+            $Mapel->nama = $this->request->nama;
+            $Mapel->nisn = $this->request->nisn;
+            $Mapel->jk = $this->request->jk;
+            $Mapel->alamat = $this->request->alamat;
+            $Mapel->ttl = $this->request->ttl;
+            $Mapel->kelas = $this->request->kelas;
+            $Mapel->tahun_masuk = $this->request->tahun_masuk;
+            $Mapel->nama_ibu = $this->request->nama_ibu;
+            $Mapel->nama_ayah = $this->request->nama_ayah;
             $Mapel->save();
             return response()->json([
                 'status' => 'ok',
-                'msg' => 'data berhasil di simpan'
+                'msg' => 'data berhasil di simpan',
             ]);
         } catch (\Throwable $th) {
             //throw $th;
         }
     }
-
 
     public function delete($id)
     {
@@ -140,12 +132,11 @@ class Mapelcontroller extends Controller
             $Mapel->delete();
             return response()->json([
                 'status' => 'ok',
-                'msg' => 'data berhasil di hapus'
+                'msg' => 'data berhasil di hapus',
             ]);
         } catch (\Throwable $th) {
         }
     }
-
 
     //
 }

@@ -46,8 +46,6 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->get('siswa/show/{id}', 'SiswaController@show');
     $router->post('siswa/delete/{id}', 'SiswaController@delete');
 
-
-
     $router->get('nilai', 'Mapelcontroller@nilai');
 
     $router->get('mapel', 'Mapelcontroller@index');
@@ -56,20 +54,19 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->put('mapel/show/{params}', 'Mapelcontroller@show');
     $router->post('mapel/delete/{params}', 'Mapelcontroller@delete');
 
-
     $router->get('kelas', 'KelasController@index');
     $router->post('kelas/insert', 'KelasController@store');
     $router->post('kelas/update/{params}', 'KelasController@update');
     $router->put('kelas/show/{params}', 'KelasController@show');
-    $router->post('kelas/delete/{params}', 'KelasController@delete');
-
+    $router->post('kelas/delete/{id}', 'KelasController@delete');
 
     $router->get('pegawai', 'PegawaiController@index');
+    $router->get('level_akses', 'PegawaiController@level_akses');
+
     $router->post('pegawai/insert', 'PegawaiController@store');
     $router->post('pegawai/update/{params}', 'PegawaiController@update');
     $router->put('pegawai/show/{params}', 'PegawaiController@show');
-    $router->post('pegawai/delete/{params}', 'PegawaiController@delete');
-
+    $router->post('pegawai/delete/{id}', 'PegawaiController@delete');
 
     $router->get('raport', 'RaportController@index');
     $router->post('raport/save', 'RaportController@save');
@@ -77,14 +74,20 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->get('raport/show/{id}', 'RaportController@show');
     $router->post('raport/delete/{id}', 'RaportController@delete');
 
-
     $router->post('login', 'LoginController@accesslogin');
 
+    $router->get('login/', 'LoginController@index');
     $router->post('Login/insert', 'LoginController@store');
     $router->post('Login/update/{params}', 'LoginController@update');
     $router->put('Login/show/{params}', 'LoginController@show');
     $router->post('Login/delete/{params}', 'LoginController@delete');
 
+    $router->get('semester', 'PenilaianController@semester');
+    $router->get('tahun_akademik', 'PenilaianController@tahun_akademik');
+    // $router->post('Semester/insert', 'SemesterController@store');
+    // $router->post('Semester/update/{params}', 'SemesterController@update');
+    // $router->put('Semester/show/{params}', 'SemesterController@show');
+    // $router->post('Semester/delete/{params}', 'SemesterController@delete');
 
     // get master data
 });

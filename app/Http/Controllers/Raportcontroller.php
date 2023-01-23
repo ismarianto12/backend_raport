@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Traits\Oaweb;
-use App\Models\OpeningNew;
 use App\Models\Pegawai;
 use App\Models\Penilaian;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Raportcontroller extends Controller
 {
@@ -17,7 +17,16 @@ class Raportcontroller extends Controller
     public function index()
     {
         try {
-            $data = Pegawai::get();
+            $semester = $this->request->semester;
+            $tahun = $this->request->tahun;
+
+            if ($this->request->session_id) {
+                $data = Siswa::select(\DB::raw('*'))->where('id', $this->request->session_id)
+                    ->get();
+            } else {
+                $data = Siswa::select(\DB::raw('*'))
+                    ->get();
+            }
             return response()->json($data);
         } catch (\Throwable $th) {
             throw $th;
@@ -27,22 +36,32 @@ class Raportcontroller extends Controller
     public function show($id)
     {
 
-            $data = Penilaian::select('*')
-                ->join('mapel', 'mapel.id', '=', 'penilaian.id_mapel', 'left')
-                ->join('siswa', 'siswa.id', '=', 'penilaian.id_siswa', 'left')
-                ->where('penilaian.id_siswa', $id)->get();
+        $data = Penilaian::select('*')
+            ->join('mapel', 'mapel.id', '=', 'penilaian.id_mapel', 'left')
+            ->join('siswa', 'siswa.id', '=', 'penilaian.id_siswa', 'left')
+            ->where('penilaian.id_siswa', $id)->get();
 
-            // if ($data->count() > 0) {
-                return response()->json([
-                    'data' => $data,
-                ]);
-            // } else {
-            //     return abort(404);
-            // }
+        // if ($data->count() > 0) {
+        return response()->json([
+            'data' => $data,
+        ]);
+        // } else {
+        //     return abort(404);
+        // }
 
     }
 
+    private function getnama($id)
+    {
+        $data = Siswa::where('id', $id)->get();
+        if ($data->count() > 0) {
+            $nama = $data->first()->nama;
+        } else {
+            $nama = 'undefined';
 
+        }
+        return $nama;
+    }
 
     public function save()
     {
@@ -56,11 +75,11 @@ class Raportcontroller extends Controller
             $data->semester = $this->request->semester;
             $data->nilai_tugas = $this->request->nilai_tugas;
             $data->nilai_presensi = $this->request->nilai_presensi;
-
             $data->save();
+
             return response()->json([
-                'nama' => $data->id_siswa,
-                'msg' => 'data berhasil di simpan'
+                'nama' => $this->getnama($data->id_siswa),
+                'msg' => 'data berhasil di simpan',
             ]);
         } catch (\Throwable $th) {
             //throw $th;
@@ -71,25 +90,24 @@ class Raportcontroller extends Controller
     {
         try {
             $Pegawai = Pegawai::find($id);
-            $Pegawai->nama =  $this->request->nama;
-            $Pegawai->nisn =  $this->request->nisn;
-            $Pegawai->jk =  $this->request->jk;
-            $Pegawai->alamat =  $this->request->alamat;
-            $Pegawai->ttl =  $this->request->ttl;
-            $Pegawai->kelas =  $this->request->kelas;
-            $Pegawai->tahun_masuk =  $this->request->tahun_masuk;
-            $Pegawai->nama_ibu =  $this->request->nama_ibu;
-            $Pegawai->nama_ayah =  $this->request->nama_ayah;
+            $Pegawai->nama = $this->request->nama;
+            $Pegawai->nisn = $this->request->nisn;
+            $Pegawai->jk = $this->request->jk;
+            $Pegawai->alamat = $this->request->alamat;
+            $Pegawai->ttl = $this->request->ttl;
+            $Pegawai->kelas = $this->request->kelas;
+            $Pegawai->tahun_masuk = $this->request->tahun_masuk;
+            $Pegawai->nama_ibu = $this->request->nama_ibu;
+            $Pegawai->nama_ayah = $this->request->nama_ayah;
             $Pegawai->save();
             return response()->json([
                 'status' => 'ok',
-                'msg' => 'data berhasil di simpan'
+                'msg' => 'data berhasil di simpan',
             ]);
         } catch (\Throwable $th) {
             //throw $th;
         }
     }
-
 
     public function delete($id)
     {
@@ -98,12 +116,11 @@ class Raportcontroller extends Controller
             $Pegawai->delete();
             return response()->json([
                 'status' => 'ok',
-                'msg' => 'data berhasil di hapus'
+                'msg' => 'data berhasil di hapus',
             ]);
         } catch (\Throwable $th) {
         }
     }
-
 
     //
 }

@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Illuminate\Support\Facades\DB;
-
 class Mapel extends model
 {
 
     protected $table = 'mapel';
+    protected $guarded = [];
+    public $incrementing = false;
     public $timestamps = false;
+
 }

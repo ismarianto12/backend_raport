@@ -11,4 +11,5 @@ class Login extends model
 
     protected $table = 'login';
     public $timestamps = false;
+
 }
