@@ -77,22 +77,17 @@ class Logincontroller extends Controller
 
         try {
             $Login = new Login;
-            $Login->nama = $this->request->nama;
-            $Login->nisn = $this->request->nisn;
-            $Login->jk = $this->request->jk;
-            $Login->alamat = $this->request->alamat;
-            $Login->ttl = $this->request->ttl;
-            $Login->kelas = $this->request->kelas;
-            $Login->tahun_masuk = $this->request->tahun_masuk;
-            $Login->nama_ibu = $this->request->nama_ibu;
-            $Login->nama_ayah = $this->request->nama_ayah;
+            $Login->username = $this->request->username;
+            $Login->password = $this->request->password;
+            $Login->level = $this->request->level;
             $Login->save();
+
             return response()->json([
                 'status' => 'ok',
                 'msg' => 'data berhasil di simpan',
             ]);
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
     }
 
@@ -100,15 +95,9 @@ class Logincontroller extends Controller
     {
         try {
             $Login = Login::find($id);
-            $Login->nama = $this->request->nama;
-            $Login->nisn = $this->request->nisn;
-            $Login->jk = $this->request->jk;
-            $Login->alamat = $this->request->alamat;
-            $Login->ttl = $this->request->ttl;
-            $Login->kelas = $this->request->kelas;
-            $Login->tahun_masuk = $this->request->tahun_masuk;
-            $Login->nama_ibu = $this->request->nama_ibu;
-            $Login->nama_ayah = $this->request->nama_ayah;
+            $Login->username = $this->request->username;
+            $Login->password = $this->request->password;
+            $Login->level = $this->request->level;
             $Login->save();
             return response()->json([
                 'status' => 'ok',

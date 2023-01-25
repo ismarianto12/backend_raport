@@ -77,10 +77,10 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('login', 'LoginController@accesslogin');
 
     $router->get('login/', 'LoginController@index');
-    $router->post('Login/insert', 'LoginController@store');
-    $router->post('Login/update/{params}', 'LoginController@update');
-    $router->put('Login/show/{params}', 'LoginController@show');
-    $router->post('Login/delete/{params}', 'LoginController@delete');
+    $router->post('login/insert', 'LoginController@store');
+    $router->post('login/update/{id}', 'LoginController@update');
+    $router->put('login/show/{id}', 'LoginController@show');
+    $router->post('login/delete/{id}', 'LoginController@delete');
 
     $router->get('semester', 'PenilaianController@semester');
     $router->get('tahun_akademik', 'PenilaianController@tahun_akademik');
