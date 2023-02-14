@@ -88,6 +88,7 @@ class Mapelcontroller extends Controller
 
         try {
             $Mapel = new Mapel;
+            $Mapel->id_pegawai = $this->request->id_pegawai;
             $Mapel->kode = $this->request->kode;
             $Mapel->mapel = $this->request->mapel;
             $Mapel->kkm = $this->request->kkm;

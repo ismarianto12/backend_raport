@@ -79,7 +79,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->get('login/', 'LoginController@index');
     $router->post('login/insert', 'LoginController@store');
     $router->post('login/update/{id}', 'LoginController@update');
-    $router->put('login/show/{id}', 'LoginController@show');
+    $router->get('login/show/{id}', 'LoginController@show');
     $router->post('login/delete/{id}', 'LoginController@delete');
 
     $router->get('semester', 'PenilaianController@semester');
