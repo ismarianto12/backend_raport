@@ -86,14 +86,13 @@ class Kelascontroller extends Controller
 
     public function store()
     {
-
         try {
-            $Kelas = new Kelas;
-            $Kelas->id_pegawai = (int) $this->request->id_pegawai;
-            $Kelas->kode = $this->request->kode;
-            $Kelas->kelas = $this->request->kelas;
-            $Kelas->kkm = $this->request->kkm;
-            $Kelas->kurikulum = $this->request->kurikulum;
+            $Kelas              = new Kelas;
+            $Kelas->id_pegawai  = (int) $this->request->id_pegawai;
+            $Kelas->kode        = $this->request->kode;
+            $Kelas->kelas       = $this->request->kelas;
+            $Kelas->kkm         = $this->request->kkm;
+            $Kelas->kurikulum   = $this->request->kurikulum;
             $Kelas->save();
             return response()->json([
                 'status' => 'ok',

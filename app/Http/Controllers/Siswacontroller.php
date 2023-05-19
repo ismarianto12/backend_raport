@@ -37,8 +37,6 @@ class Siswacontroller extends Controller
         }
     }
 
-
-
     public function store()
     {
 

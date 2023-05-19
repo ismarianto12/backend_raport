@@ -58,7 +58,6 @@ class Raportcontroller extends Controller
             $nama = $data->first()->nama;
         } else {
             $nama = 'undefined';
-
         }
         return $nama;
     }
@@ -120,6 +119,23 @@ class Raportcontroller extends Controller
             ]);
         } catch (\Throwable $th) {
         }
+    }
+
+    public function GetRatings()
+    {
+        $siswa_id = $this->request->siswa_id;
+
+        $data = Penilaian::select(\DB::raw('max(bobot) as peringkat', 'siswa.id as siswa_ratings'))
+            ->join('mapel', 'mapel.id', '=', 'penilaian.id_mapel', 'left')
+            ->join('siswa', 'siswa.id', '=', 'penilaian.id_siswa', 'left')
+            ->orderBy('siswa.id','desc')
+            ->get();
+
+        dd($data->first()->siswa_ratings);
+        $ratingsView =  $data->first()->siswa_ratings ?  $data->first()->siswa_ratings : 0;
+        return response()->json([
+            'data' => $ratingsView
+        ]);
     }
 
     //

@@ -38,7 +38,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'v1'], function () use ($router) {
+$router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($router) {
 
     $router->get('siswa', 'SiswaController@index');
     $router->post('siswa/insert', 'SiswaController@store');
@@ -84,10 +84,14 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
 
     $router->get('semester', 'PenilaianController@semester');
     $router->get('tahun_akademik', 'PenilaianController@tahun_akademik');
+    $router->post('getratings', 'RaportController@GetRatings');
     // $router->post('Semester/insert', 'SemesterController@store');
     // $router->post('Semester/update/{params}', 'SemesterController@update');
     // $router->put('Semester/show/{params}', 'SemesterController@show');
     // $router->post('Semester/delete/{params}', 'SemesterController@delete');
 
+    $router->get('materi/all', 'MateriController@index');
+    $router->get('materi/save', 'MateriController@save');
+    $router->post('materi/update', 'MateriController@update');
     // get master data
 });

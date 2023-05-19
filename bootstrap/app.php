@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
@@ -60,8 +60,6 @@ $app->singleton(
 
 $app->configure('app');
 app('hash')->make('yourpassword');
-
-
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -76,10 +74,9 @@ app('hash')->make('yourpassword');
 // $app->middleware([
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
-
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\CustomMiddleware::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -110,7 +107,7 @@ app('hash')->make('yourpassword');
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__ . '/../routes/web.php';
 });
 
 
