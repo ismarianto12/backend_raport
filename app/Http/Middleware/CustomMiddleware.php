@@ -9,7 +9,12 @@ class CustomMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if ($request->token || $request->token('token')) {
+
+        $token     = isset($request->token) ? $request->token : '';
+        $tokendata = $request->token('token');
+        $header    = $request->header('token') != '' ? $tokendata : '';
+
+        if ($token || $header) {
             return $next($request);
         } else {
             return response('Unauthorized.', 401);
