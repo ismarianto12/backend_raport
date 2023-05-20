@@ -14,29 +14,33 @@ class Logincontroller extends Controller
 
     public function accesslogin()
     {
-        $username = $this->request->username;
-        $password = $this->request->password;
+        $username           = $this->request->username;
+        $password           = $this->request->password;
         $data = Login::where([
-            'username' => $username,
-            'password' => $password,
+            'username'      => $username,
+            'password'      => $password,
         ])->get();
-
-        // dd($data);
         if ($data->count() > 0) {
+            $ReturnToken    = app('hash')->make($password);
+            Login::where(
+                ['id'       => $data->first()->id]
+            )->update([
+                'token'     => $ReturnToken
+            ]);
             $Resp = [
-                "id" => $data->first()->fk_id,
-                'username' => $data->first()->username,
-                'nama' => $data->first()->nama,
-                'token' => app('hash')->make($password),
-                'level' => $data->first()->level,
+                "id"        => $data->first()->fk_id,
+                'username'  => $data->first()->username,
+                'nama'      => $data->first()->nama,
+                'token'     => $ReturnToken,
+                'level'     => $data->first()->level,
             ];
             return response()->json($Resp);
         } else {
             return response()->json([
-                'status' => 'failed',
-                'messages' => 'username dan password salah',
-                'token' => $password,
-                'data' => $data,
+                'status'    => 'failed',
+                'messages'  => 'username dan password salah',
+                'token'     => $password,
+                'data'      => $data,
             ], 400);
         }
     }

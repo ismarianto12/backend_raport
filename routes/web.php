@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
         header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
     }
-
     exit(0);
 }
 
@@ -38,60 +37,61 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($router) {
+$router->group(['prefix' => 'v1'], function () use ($router) {
+    $router->group(['middleware' => 'auth'], function () use ($router) {
 
-    $router->get('siswa', 'SiswaController@index');
-    $router->post('siswa/insert', 'SiswaController@store');
-    $router->post('siswa/update/{id}', 'SiswaController@update');
-    $router->get('siswa/show/{id}', 'SiswaController@show');
-    $router->post('siswa/delete/{id}', 'SiswaController@delete');
+        $router->get('siswa', 'SiswaController@index');
+        $router->post('siswa/insert', 'SiswaController@store');
+        $router->post('siswa/update/{id}', 'SiswaController@update');
+        $router->get('siswa/show/{id}', 'SiswaController@show');
+        $router->post('siswa/delete/{id}', 'SiswaController@delete');
 
-    $router->get('nilai', 'Mapelcontroller@nilai');
+        $router->get('nilai', 'Mapelcontroller@nilai');
 
-    $router->get('mapel', 'Mapelcontroller@index');
-    $router->post('mapel/insert', 'Mapelcontroller@store');
-    $router->post('mapel/update/{params}', 'Mapelcontroller@update');
-    $router->put('mapel/show/{params}', 'Mapelcontroller@show');
-    $router->post('mapel/delete/{params}', 'Mapelcontroller@delete');
+        $router->get('mapel', 'Mapelcontroller@index');
+        $router->post('mapel/insert', 'Mapelcontroller@store');
+        $router->post('mapel/update/{params}', 'Mapelcontroller@update');
+        $router->put('mapel/show/{params}', 'Mapelcontroller@show');
+        $router->post('mapel/delete/{params}', 'Mapelcontroller@delete');
 
-    $router->get('kelas', 'KelasController@index');
-    $router->post('kelas/insert', 'KelasController@store');
-    $router->post('kelas/update/{params}', 'KelasController@update');
-    $router->put('kelas/show/{params}', 'KelasController@show');
-    $router->post('kelas/delete/{id}', 'KelasController@delete');
+        $router->get('kelas', 'KelasController@index');
+        $router->post('kelas/insert', 'KelasController@store');
+        $router->post('kelas/update/{params}', 'KelasController@update');
+        $router->put('kelas/show/{params}', 'KelasController@show');
+        $router->post('kelas/delete/{id}', 'KelasController@delete');
 
-    $router->get('pegawai', 'PegawaiController@index');
-    $router->get('level_akses', 'PegawaiController@level_akses');
+        $router->get('pegawai', 'PegawaiController@index');
+        $router->get('level_akses', 'PegawaiController@level_akses');
 
-    $router->post('pegawai/insert', 'PegawaiController@store');
-    $router->post('pegawai/update/{params}', 'PegawaiController@update');
-    $router->put('pegawai/show/{params}', 'PegawaiController@show');
-    $router->post('pegawai/delete/{id}', 'PegawaiController@delete');
+        $router->post('pegawai/insert', 'PegawaiController@store');
+        $router->post('pegawai/update/{params}', 'PegawaiController@update');
+        $router->put('pegawai/show/{params}', 'PegawaiController@show');
+        $router->post('pegawai/delete/{id}', 'PegawaiController@delete');
 
-    $router->get('raport', 'RaportController@index');
-    $router->post('raport/save', 'RaportController@save');
-    $router->post('raport/update/{id}', 'RaportController@update');
-    $router->get('raport/show/{id}', 'RaportController@show');
-    $router->post('raport/delete/{id}', 'RaportController@delete');
+        $router->get('raport', 'RaportController@index');
+        $router->post('raport/save', 'RaportController@save');
+        $router->post('raport/update/{id}', 'RaportController@update');
+        $router->get('raport/show/{id}', 'RaportController@show');
+        $router->post('raport/delete/{id}', 'RaportController@delete');
 
+        $router->get('semester', 'PenilaianController@semester');
+        $router->get('tahun_akademik', 'PenilaianController@tahun_akademik');
+        $router->post('getratings', 'RaportController@GetRatings');
+        // $router->post('Semester/insert', 'SemesterController@store');
+        // $router->post('Semester/update/{params}', 'SemesterController@update');
+        // $router->put('Semester/show/{params}', 'SemesterController@show');
+        // $router->post('Semester/delete/{params}', 'SemesterController@delete');
+
+        $router->get('materi/all', 'MateriController@index');
+        $router->get('materi/save', 'MateriController@save');
+        $router->post('materi/update', 'MateriController@update');
+
+
+        $router->get('login/', 'LoginController@index');
+        $router->post('login/insert', 'LoginController@store');
+        $router->post('login/update/{id}', 'LoginController@update');
+        $router->get('login/show/{id}', 'LoginController@show');
+        $router->post('login/delete/{id}', 'LoginController@delete');
+    });
     $router->post('login', 'LoginController@accesslogin');
-
-    $router->get('login/', 'LoginController@index');
-    $router->post('login/insert', 'LoginController@store');
-    $router->post('login/update/{id}', 'LoginController@update');
-    $router->get('login/show/{id}', 'LoginController@show');
-    $router->post('login/delete/{id}', 'LoginController@delete');
-
-    $router->get('semester', 'PenilaianController@semester');
-    $router->get('tahun_akademik', 'PenilaianController@tahun_akademik');
-    $router->post('getratings', 'RaportController@GetRatings');
-    // $router->post('Semester/insert', 'SemesterController@store');
-    // $router->post('Semester/update/{params}', 'SemesterController@update');
-    // $router->put('Semester/show/{params}', 'SemesterController@show');
-    // $router->post('Semester/delete/{params}', 'SemesterController@delete');
-
-    $router->get('materi/all', 'MateriController@index');
-    $router->get('materi/save', 'MateriController@save');
-    $router->post('materi/update', 'MateriController@update');
-    // get master data
 });
