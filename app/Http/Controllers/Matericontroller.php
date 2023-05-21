@@ -38,6 +38,16 @@ class Matericontroller extends Controller
                     'mapel' => 'Pendidikan  Pancasila',
                     'Guru' => 'Guru 4'
                 ],
+                [
+                    'id' => 5,
+                    'mapel' => 'Pendidikan  Pancasila',
+                    'Guru' => 'Guru 4'
+                ],
+                [
+                    'id' => 6,
+                    'mapel' => 'Pendidikan  Pancasila',
+                    'Guru' => 'Guru 6'
+                ],
             ];
             return response()->json(['data' => $data]);
         } catch (\Throwable $th) {
