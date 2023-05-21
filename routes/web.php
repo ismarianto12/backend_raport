@@ -85,7 +85,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         $router->get('materi/all', 'MateriController@index');
         $router->get('materi/save', 'MateriController@save');
         $router->post('materi/update', 'MateriController@update');
-
+        $router->get('/master/statushadir', 'SiswaController@statushadir');
 
         $router->get('login/', 'LoginController@index');
         $router->post('login/insert', 'LoginController@store');

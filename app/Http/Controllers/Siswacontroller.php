@@ -99,6 +99,15 @@ class Siswacontroller extends Controller
         }
     }
 
+    // func
 
-    //
+    public function statushadir()
+    {
+        $a = [
+            '1' => 'hadir',
+            '2' => 'izin',
+            '3' => 'Alpa/tanpa keterangan',
+        ];
+        return response()->json($a);
+    }
 }

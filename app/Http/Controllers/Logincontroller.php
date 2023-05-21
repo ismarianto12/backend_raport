@@ -80,12 +80,11 @@ class Logincontroller extends Controller
     {
 
         try {
-            $Login = new Login;
+            $Login           = new Login;
             $Login->username = $this->request->username;
             $Login->password = $this->request->password;
-            $Login->level = $this->request->level;
+            $Login->level    = $this->request->level;
             $Login->save();
-
             return response()->json([
                 'status' => 'ok',
                 'msg' => 'data berhasil di simpan',
