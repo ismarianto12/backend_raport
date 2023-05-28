@@ -122,7 +122,7 @@ class Kelascontroller extends Controller
                 'msg' => 'data berhasil di simpan',
             ]);
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
     }
 

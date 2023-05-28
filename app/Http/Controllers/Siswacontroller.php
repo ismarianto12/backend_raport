@@ -16,7 +16,7 @@ class Siswacontroller extends Controller
     public function index()
     {
         try {
-            $data = Siswa::get();
+            $data = Siswa::select('*')->OrderBy('id','desc')->get();
             return response()->json($data);
         } catch (\Throwable $th) {
             throw $th;
@@ -51,18 +51,21 @@ class Siswacontroller extends Controller
             $siswa->tahun_masuk =  $this->request->tahun_masuk;
             $siswa->nama_ibu =  $this->request->nama_ibu;
             $siswa->nama_ayah =  $this->request->nama_ayah;
+            $siswa->created_at = date('Y-m-d H:i:s');
+            $siswa->updated_at = date('Y-m-d H:i:s');
             $siswa->save();
             return response()->json([
                 'status' => 'ok',
                 'msg' => 'data berhasil di simpan'
             ]);
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
     }
 
     public function update($id)
     {
+        // dd($this->request->all());
         try {
             $siswa = Siswa::find($id);
             $siswa->nama =  $this->request->nama;
@@ -78,10 +81,10 @@ class Siswacontroller extends Controller
 
             return response()->json([
                 'status' => 'ok',
-                'msg' => 'data berhasil di simpan'
+                'msg' => 'data berhasil di update'
             ]);
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
     }
 

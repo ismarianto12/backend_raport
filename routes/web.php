@@ -38,26 +38,26 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'v1'], function () use ($router) {
-    $router->group(['middleware' => 'auth'], function () use ($router) {
+    // $router->group(['middleware' => 'auth'], function () use ($router) {
 
         $router->get('siswa', 'SiswaController@index');
         $router->post('siswa/insert', 'SiswaController@store');
         $router->post('siswa/update/{id}', 'SiswaController@update');
-        $router->get('siswa/show/{id}', 'SiswaController@show');
+        $router->post('siswa/show/{id}', 'SiswaController@show');
         $router->post('siswa/delete/{id}', 'SiswaController@delete');
 
         $router->get('nilai', 'Mapelcontroller@nilai');
 
         $router->get('mapel', 'Mapelcontroller@index');
         $router->post('mapel/insert', 'Mapelcontroller@store');
-        $router->post('mapel/update/{params}', 'Mapelcontroller@update');
-        $router->put('mapel/show/{params}', 'Mapelcontroller@show');
-        $router->post('mapel/delete/{params}', 'Mapelcontroller@delete');
+        $router->post('mapel/update/{id}', 'Mapelcontroller@update');
+        $router->post('mapel/show/{id}', 'Mapelcontroller@show');
+        $router->post('mapel/delete/{id}', 'Mapelcontroller@delete');
 
         $router->get('kelas', 'KelasController@index');
         $router->post('kelas/insert', 'KelasController@store');
-        $router->post('kelas/update/{params}', 'KelasController@update');
-        $router->put('kelas/show/{params}', 'KelasController@show');
+        $router->post('kelas/update/{id}', 'KelasController@update');
+        $router->put('kelas/show/{id}', 'KelasController@show');
         $router->post('kelas/delete/{id}', 'KelasController@delete');
 
         $router->get('pegawai', 'PegawaiController@index');
@@ -92,6 +92,6 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         $router->post('login/update/{id}', 'LoginController@update');
         $router->get('login/show/{id}', 'LoginController@show');
         $router->post('login/delete/{id}', 'LoginController@delete');
-    });
+    // });
     $router->post('login', 'LoginController@accesslogin');
 });

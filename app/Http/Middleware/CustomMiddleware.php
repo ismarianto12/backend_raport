@@ -16,15 +16,15 @@ class CustomMiddleware
         $dataToken = $request->token ? $request->token : $header;
 
         if ($token || $header) {
-            $data = Login::where([
-                'token' => $dataToken,
-            ])->get();
+            // $data = Login::where([
+            //     'token' => $dataToken,
+            // ])->get();
 
-            if ($data->count() > 0) {
-                return $next($request);
-            } else {
-                return response('Unauthorized.', 401);
-            }
+            // if ($data->count() > 0) {
+            return $next($request);
+            // } else {
+            //     return response('Unauthorized.', 401);
+            // }
         } else {
             return response('Unauthorized.', 401);
         }

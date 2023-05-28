@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Elearning;
 use App\Models\Pegawai;
 use App\Models\Penilaian;
 use App\Models\Siswa;
@@ -17,38 +18,8 @@ class Matericontroller extends Controller
     public function index()
     {
         try {
-            $data =  [
-                [
-                    'id' => 1,
-                    'mapel' => 'Pendidikan  1',
-                    'Guru' => 'Guru 1'
-                ],
-                [
-                    'id' => 2,
-                    'mapel' => 'Laporan Jurnal Pendapatan',
-                    'Guru' => 'Guru 2'
-                ],
-                [
-                    'id' => 3,
-                    'mapel' => 'Pendidikan pengeluaran',
-                    'Guru' => 'Guru 3'
-                ],
-                [
-                    'id' => 4,
-                    'mapel' => 'Pendidikan  Pancasila',
-                    'Guru' => 'Guru 4'
-                ],
-                [
-                    'id' => 5,
-                    'mapel' => 'Pendidikan  Pancasila',
-                    'Guru' => 'Guru 4'
-                ],
-                [
-                    'id' => 6,
-                    'mapel' => 'Pendidikan  Pancasila',
-                    'Guru' => 'Guru 6'
-                ],
-            ];
+
+            $data = Elearning::get();
             return response()->json(['data' => $data]);
         } catch (\Throwable $th) {
             throw $th;
@@ -57,20 +28,8 @@ class Matericontroller extends Controller
 
     public function show($id)
     {
-
-        $data = Penilaian::select('*')
-            ->join('mapel', 'mapel.id', '=', 'penilaian.id_mapel', 'left')
-            ->join('siswa', 'siswa.id', '=', 'penilaian.id_siswa', 'left')
-            ->where('penilaian.id_siswa', $id)->get();
-
-        // if ($data->count() > 0) {
-        return response()->json([
-            'data' => $data,
-        ]);
-        // } else {
-        //     return abort(404);
-        // }
-
+        $data = Elearning::find($id);
+        return response()->json(['data' => $data]);
     }
 
     private function getnama($id)
@@ -86,24 +45,38 @@ class Matericontroller extends Controller
 
     public function save()
     {
-
         try {
-            $data = new Penilaian;
-            $data->id_siswa = $this->request->id_siswa;
-            $data->id_mapel = $this->request->mapel;
+            $validasi = [
+                "kelas_id" => 'required',
+                "semester_id" => 'required',
+                "materiJudul" => 'required',
+                "fileMateri" => 'required',
+                "nilai" => 'required',
+                "user_id" => 'required'
+            ];
+            $valid = $this->request->validate($this->request, $validasi);
+            if ($valid->fails()) {
+                return response()->json([
+                    'nama' =>'' ,
+                    'msg' => 'data berhasil di simpan',
+                ]);
+            }
+
+            $data  = new Elearning();
+            $data->kelas_id = $this->request->kelas_id;
+            $data->semester_id = $this->request->semester_id;
+            $data->materiJudul = $this->request->materiJudul;
+            $data->fileMateri = $this->request->fileMateri;
             $data->nilai = $this->request->nilai;
-            $data->bobot = $this->request->bobot;
-            $data->semester = $this->request->semester;
-            $data->nilai_tugas = $this->request->nilai_tugas;
-            $data->nilai_presensi = $this->request->nilai_presensi;
+            $data->user_id = $this->request->user_id;
             $data->save();
 
             return response()->json([
-                'nama' => $this->getnama($data->id_siswa),
+                'status' =>'ok',
                 'msg' => 'data berhasil di simpan',
-            ]);
+            ],200);
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
     }
 
@@ -142,23 +115,4 @@ class Matericontroller extends Controller
         } catch (\Throwable $th) {
         }
     }
-
-    public function GetRatings()
-    {
-        $siswa_id = $this->request->siswa_id;
-
-        $data = Penilaian::select(\DB::raw('max(bobot) as peringkat', 'siswa.id as siswa_ratings'))
-            ->join('mapel', 'mapel.id', '=', 'penilaian.id_mapel', 'left')
-            ->join('siswa', 'siswa.id', '=', 'penilaian.id_siswa', 'left')
-            ->orderBy('siswa.id', 'desc')
-            ->get();
-
-        dd($data->first()->siswa_ratings);
-        $ratingsView =  $data->first()->siswa_ratings ?  $data->first()->siswa_ratings : 0;
-        return response()->json([
-            'data' => $ratingsView
-        ]);
-    }
-
-    //
 }

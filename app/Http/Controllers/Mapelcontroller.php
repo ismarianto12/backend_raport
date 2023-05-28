@@ -73,9 +73,9 @@ class Mapelcontroller extends Controller
 
             $data = Mapel::where('id', $id)->get();
             if ($data->count() > 0) {
-                return response()->json([
-                    'data' => $data,
-                ]);
+                return response()->json(
+                    $data,
+                );
             } else {
                 return abort(404);
             }
@@ -122,7 +122,7 @@ class Mapelcontroller extends Controller
                 'msg' => 'data berhasil di simpan',
             ]);
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
     }
 
