@@ -38,7 +38,7 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'v1'], function () use ($router) {
-    // $router->group(['middleware' => 'auth'], function () use ($router) {
+    $router->group(['middleware' => 'auth'], function () use ($router) {
 
         $router->get('siswa', 'SiswaController@index');
         $router->post('siswa/insert', 'SiswaController@store');
@@ -53,6 +53,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         $router->post('mapel/update/{id}', 'Mapelcontroller@update');
         $router->post('mapel/show/{id}', 'Mapelcontroller@show');
         $router->post('mapel/delete/{id}', 'Mapelcontroller@delete');
+        $router->post('pdf', 'MapelController@SkFile');
 
         $router->get('kelas', 'KelasController@index');
         $router->post('kelas/insert', 'KelasController@store');
@@ -92,6 +93,6 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         $router->post('login/update/{id}', 'LoginController@update');
         $router->get('login/show/{id}', 'LoginController@show');
         $router->post('login/delete/{id}', 'LoginController@delete');
-    // });
+    });
     $router->post('login', 'LoginController@accesslogin');
 });

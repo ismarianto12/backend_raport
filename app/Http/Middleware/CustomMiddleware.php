@@ -14,7 +14,6 @@ class CustomMiddleware
         $tokendata = $request->header('token');
         $header    = $request->header('token') != '' ? $tokendata : '';
         $dataToken = $request->token ? $request->token : $header;
-
         if ($token || $header) {
             // $data = Login::where([
             //     'token' => $dataToken,

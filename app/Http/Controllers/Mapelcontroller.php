@@ -126,6 +126,13 @@ class Mapelcontroller extends Controller
         }
     }
 
+    public function SkFile()
+    {
+        $filePath = 'https://www.ui.ac.id/wp-content/uploads/2023/05/496-SK-tentang-tarif-BP-Program-profesi-Magister-Doktor-dan-Spesialis-TA-2023-2024.pdf';
+        header('Content-Type: application/pdf');
+        readfile($filePath);
+    }
+
     public function delete($id)
     {
         try {
